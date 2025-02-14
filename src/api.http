@@ -1,0 +1,61 @@
+### get info
+GET {{server}}/info
+
+
+### list tasks
+GET {{server}}/tasks
+
+### add Task
+PUT {{server}}/tasks
+Content-Type: application/json
+
+{ "type": "shit" }
+
+
+### get task
+@task_id =__orphaned_data__
+GET {{server}}/tasks/{{task_id}}
+
+
+###
+PATCH {{server}}/tasks/{{task_id}}
+Content-Type: application/json
+
+{
+  "type": ""
+}
+
+###
+DELETE {{server}}/tasks/{{task_id}}
+
+### add chunk
+PUT {{server}}/tasks/{{task_id}}/data
+Content-Type: application/json
+
+[
+  { "id": "a", "value": "A", "status": "VALUE_CHANGED" },
+  { "id": "b", "value": "B", "status": "VALUE_CHANGED" },
+  { "id": "c", "value": "C", "status": "VALUE_CHANGED" },
+  { "id": "d", "value": "D", "status": "VALUE_CHANGED" }
+]
+
+<> 2025-01-30T141643.200.json
+<> 2025-01-30T141640.200.json
+<> 2025-01-30T141636.406.json
+<> 2025-01-30T140901.406.json
+<> 2025-01-30T140835.406.json
+<> 2025-01-30T140745.403.json
+
+### get chunk
+@chunk_id = test
+GET {{server}}/tasks/{{task_id}}/data/{{chunk_id}}
+
+<> 2025-01-30T142122.200.json
+<> 2025-01-30T142120.404.json
+<> 2025-01-30T142052.404.json
+<> 2025-01-30T142050.404.json
+<> 2025-01-30T141959.404.json
+<> 2025-01-30T141735.406.json
+
+###
+DELETE {{server}}/tasks/{{task_id}}/data/{{chunk_id}}

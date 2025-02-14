@@ -220,28 +220,22 @@ components:
 
     TaskId:
       type: string
-      properties:
-        type:
-          type: string
       example: 'task#1234569'
+
     TaskType:
       type: string
-      properties:
-        type:
-          type: string
-          enum:
-            - 'train'
-            - 'code'
+      enum:
+        - 'train'
+        - 'code'
       example: 'train'
+
     TaskAction:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - 'commit'
-            - 'abort'
+      type: string
+      enum:
+        - 'commit'
+        - 'abort'
       example: 'commit'
+
     Task:
       type: object
       properties:
@@ -288,15 +282,18 @@ components:
           }
         ]
       }
+
     ChunkId:
       type: string
       example: "chunk#13346"
+
     ChunkType:
       type: string
       enum:
         - "input"
         - "output"
       example: "input"
+
     DataChunk:
       type: object
       properties:
@@ -307,6 +304,7 @@ components:
       required:
         - id
         - type
+
     DataSet:
       type: array
       items:
@@ -318,6 +316,7 @@ components:
           { setId: 'user2',  id: 'a', value: 'some answer', status: 'VALUE_CHANGED' },
           { setId: 'user2',  id: 'b', value: 'trash answer', status: 'VALUE_CHANGED' },
         ]
+
     Response:
       title: Response
       description: Data structure produced by verona players
