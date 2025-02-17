@@ -16,11 +16,6 @@ Content-Type: application/json
 
 > {% client.global.set("task_id", response.body.id); %}
 
-### get task
-GET {{server}}/tasks/{{task_id}}
-
-
-
 ### commit task
 PATCH {{server}}/tasks/{{task_id}}
 Content-Type: application/json
@@ -28,6 +23,15 @@ Content-Type: application/json
 {
   "action": "commit"
 }
+
+### get task again and store output chunk id
+GET {{server}}/tasks/{{task_id}}
+
+> {% client.global.set("chunk_id", response.body.data.find(d => d.type === 'output').id) %}
+
+### get chunk
+GET {{server}}/tasks/{{task_id}}/data/{{chunk_id}}
+
 
 ### abort task
 PATCH {{server}}/tasks/{{task_id}}
@@ -52,9 +56,7 @@ Content-Type: application/json
 ]
 
 
-### get chunk
-@chunk_id = test
-GET {{server}}/tasks/{{task_id}}/data/{{chunk_id}}
+
 
 
 
