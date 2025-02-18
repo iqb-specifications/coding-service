@@ -1,0 +1,115 @@
+### get server info
+GET {{server}}/info
+
+> {%
+  client.assert(response.status === 200);
+%}
+
+### list tasks
+GET {{server}}/tasks
+
+> {%
+  client.assert(response.status === 200);
+%}
+
+### add Task
+PUT {{server}}/tasks
+Content-Type: application/json
+
+{
+  "type": "train",
+  "instructions": {}
+}
+
+> {%
+  client.assert(response.status === 200);
+  client.global.set("task_id", response.body.id);
+%}
+
+
+### add some data
+PUT {{server}}/tasks/{{task_id}}/data
+Content-Type: application/json
+
+[
+  { "setId": "set1", "id": "a", "value": "alpha", "status": "VALUE_CHANGED" },
+  { "setId": "set1", "id": "b", "value": "beta", "status": "VALUE_CHANGED" },
+  { "setId": "set1", "id": "c", "value": "gamma", "status": "VALUE_CHANGED" },
+  { "setId": "set2", "id": "a", "value": "ALPHA", "status": "VALUE_CHANGED" },
+  { "setId": "set3", "id": "a", "value": "α", "status": "VALUE_CHANGED" }
+]
+
+> {%
+  client.assert(response.status === 200);
+  client.assert(('id' in response.body) && ('id' in response.body.id));
+  client.global.set("input_chunk_id", response.body.id.id);
+%}
+
+### check chunk
+GET {{server}}/tasks/{{task_id}}/data/{{input_chunk_id}}
+
+> {%
+  client.assert(response.status === 200);
+%}
+
+
+### commit task
+PATCH {{server}}/tasks/{{task_id}}
+Content-Type: application/json
+
+{
+  "action": "commit"
+}
+
+> {%
+  import {wait} from "wait";
+  wait(4);
+  client.assert(response.status === 200);
+%}
+
+### get task again and store output chunk id
+GET {{server}}/tasks/{{task_id}}
+
+> {%
+  client.assert(response.status === 200);
+  client.assert(('data' in response.body) && ('length' in response.body.data));
+  client.global.set("chunk_id", response.body.data.find(d => d.type === 'output').id)
+%}
+
+### get chunk
+GET {{server}}/tasks/{{task_id}}/data/{{chunk_id}}
+
+> {%
+  client.assert(response.status === 200);
+%}
+
+
+### abort task
+PATCH {{server}}/tasks/{{task_id}}
+Content-Type: application/json
+
+{
+  "action": "abort"
+}
+
+> {%
+  client.assert(response.status !== 200);
+%}
+
+
+### delete chunk of data
+DELETE {{server}}/tasks/{{task_id}}/data/{{input_chunk_id}}
+
+> {%
+  client.assert(response.status === 200);
+%}
+
+
+### delete task
+DELETE {{server}}/tasks/{{task_id}}
+
+> {%
+  client.assert(response.status === 200);
+%}
+
+

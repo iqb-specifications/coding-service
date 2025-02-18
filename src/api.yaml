@@ -122,7 +122,7 @@ paths:
         "200":
           description: OK
           content:
-            application/json:
+            application/json: # TODO should return DataChunk itself
               schema:
                 type: object
                 properties:
