@@ -266,22 +266,16 @@ components:
         - type
         - events
         - instructions
-      example: {
-        "taskId": 123456,
-        "type": "train",
-        "statusHistory": {
-          [
-            status: "created",
-            message: "task created",
+      example:
+        taskId: 123456
+        type: "train"
+        statusHistory:
+          - status: "created"
+            message: "task created"
             timestamp: 123456789
-          ]
-        },
-        "data": [
-          {
-            "id":
-          }
-        ]
-      }
+        data:
+          - id: "chunk1"
+            type: "input"
 
     ChunkId:
       type: string
