@@ -30,7 +30,6 @@ paths:
                   type: object
               required:
                 - type
-                - instructions
             example: { type: train }
       responses:
         "200":
@@ -167,7 +166,7 @@ paths:
         200:
           description: OK
 
-  /tasks/{task_id}/instructions:
+  /tasks/{task_id}/instructions: # TODO this should be just [PATCH] /tasks/{task_id}/ with a body param "instructions"
     patch:
       summary: update instructions
       parameters:
@@ -182,6 +181,10 @@ paths:
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
 
 
 components:
