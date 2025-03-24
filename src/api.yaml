@@ -121,12 +121,9 @@ paths:
         "200":
           description: OK
           content:
-            application/json: # TODO should return DataChunk itself
+            application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    $ref: "#/components/schemas/DataChunk"
+                $ref: "#/components/schemas/DataChunk"
 
   /tasks/{task_id}/data/{chunk_id}:
     get:
