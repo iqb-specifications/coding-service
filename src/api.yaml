@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.0.2
+  version: 0.0.3
 paths:
   /info:
     get:
@@ -22,14 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                type:
-                  $ref: "#/components/schemas/TaskType"
-                instructions:
-                  type: object
-              required:
-                - type
+              $ref: "#/components/schemas/TaskSeed"
             example: { type: train }
       responses:
         "200":
@@ -163,7 +156,8 @@ paths:
         200:
           description: OK
 
-  /tasks/{task_id}/instructions: # TODO this should be just [PATCH] /tasks/{task_id}/ with a body param "instructions"
+  # TODO this should be just [PATCH] /tasks/{task_id}/ with a body param "instructions" OR sepearte endpoint like addChunk
+  /tasks/{task_id}/instructions:
     patch:
       summary: update instructions
       parameters:
@@ -174,7 +168,9 @@ paths:
             $ref: "#/components/schemas/TaskId"
       requestBody:
         content:
-          application/json: {}
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInstructions"
       responses:
         200:
           description: OK
@@ -203,6 +199,19 @@ components:
           type: string
           example: '0.0.1'
           pattern: ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$
+        taskTypes:
+          type: object
+          properties:
+            train:
+              $ref: "#/components/schemas/TaskTypeInfo"
+            code:
+              $ref: "#/components/schemas/TaskTypeInfo"
+
+    TaskTypeInfo:
+      type: object
+      properties:
+        instructionsText:
+          type: string
         instructionsSchema:
           type: object
           properties:
@@ -211,12 +220,14 @@ components:
             "$schema":
               type: string
               enum:
-               - http://json-schema.org/draft/2020-12/schema#
-               - http://json-schema.org/draft/2019-09/schema#
-               - http://json-schema.org/draft-07/schema#
+                - http://json-schema.org/draft/2020-12/schema#
+                - http://json-schema.org/draft/2019-09/schema#
+                - http://json-schema.org/draft-07/schema#
           required:
             - $id
             - $schema
+      required:
+        - instructionsSchema
 
     TaskId:
       type: string
@@ -236,11 +247,28 @@ components:
         - 'abort'
       example: 'commit'
 
+    TaskInstructions:
+      anyOf:
+        - $ref: '../../coding-service-implementation/api.yaml#/components/schemas/train'
+        - $ref: '../../coding-service-implementation/api.yaml#/components/schemas/code'
+
+    TaskSeed:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+          $ref: "#/components/schemas/TaskType"
+      required:
+        - type
+
     Task:
       type: object
       properties:
         id:
           $ref: "#/components/schemas/TaskId"
+        label:
+          type: string
         type:
           $ref: "#/components/schemas/TaskType"
         events:
@@ -256,15 +284,17 @@ components:
               timestamp:
                 type: integer
         instructions:
-          type: object
+          $ref: "#/components/schemas/TaskInstructions"
         data:
           type: array
           items:
             $ref: "#/components/schemas/DataChunk"
       required:
         - id
+        - label
         - type
         - events
+        - data
         - instructions
       example:
         taskId: 123456
