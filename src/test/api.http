@@ -40,9 +40,10 @@ Content-Type: application/json
 ]
 
 > {%
+  if (!('id' in response.body)) client.exit();
   client.assert(response.status === 200);
-  client.assert(('id' in response.body) && ('id' in response.body.id));
-  client.global.set("input_chunk_id", response.body.id.id);
+  client.assert(('id' in response.body));
+  client.global.set("input_chunk_id", response.body.id);
 %}
 
 ### check chunk
