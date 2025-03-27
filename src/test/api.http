@@ -8,7 +8,7 @@ GET {{server}}/info
   client.assert(response.status === 200);
 %}
 
-### list tasks
+### list worker
 GET {{server}}/tasks
 
 > {%
