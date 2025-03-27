@@ -238,6 +238,7 @@ components:
       enum:
         - 'train'
         - 'code'
+        - 'unknown'
       example: 'train'
 
     TaskAction:
@@ -295,7 +296,6 @@ components:
         - type
         - events
         - data
-        - instructions
       example:
         taskId: 123456
         type: "train"
