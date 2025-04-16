@@ -4,7 +4,8 @@
   "license": "MIT",
   "description": "Scheme to translate numeric values into categories. Used in proficiency level models.",
   "scripts": {
-    "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml"
+    "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,51 @@
     "url": "https://github.com/iqb-specifications/coding-service/issues"
   },
   "homepage": "https://github.com/iqb-specifications/coding-service#readme",
+  "dependencies": {
+    "@iqb/responses": "3.7.0"
+  },
   "devDependencies": {
-    "@redocly/cli": "^1.34.2"
+    "@iqb/eslint-config": "^2.1.0",
+    "@redocly/cli": "^1.34.2",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "eslintConfig": {
+    "overrides": [
+      {
+        "files": [
+          "*.ts"
+        ],
+        "extends": "@iqb/eslint-config",
+        "parserOptions": {
+          "project": "./**/tsconfig.json"
+        }
+      },
+      {
+        "files": [
+          "*.js"
+        ],
+        "extends": "@iqb/eslint-config/javascript"
+      }
+    ]
   }
 }
