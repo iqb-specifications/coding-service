@@ -30,7 +30,6 @@ jobs:
         run: |
           npm ci
           npm run generate_docs
-          mv public docs
       - name: Push changes
         run: |
           git add docs
