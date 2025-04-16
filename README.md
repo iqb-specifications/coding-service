@@ -3,3 +3,7 @@
 # coding-service API
 
 -= THIS IS IN EARLY DEVELOPMENT STAGE =-
+
+Specification for an HTTP-API used by coding services around the IQB software ecosystem.
+
+* View Documentation: https://iqb-specifications.github.io/coding-service/
