@@ -2,10 +2,11 @@
   "name": "@iqbspecs/coding-service",
   "author": "IQB - Institut zur Qualitätsentwicklung im Bildungswesen",
   "license": "MIT",
-  "description": "Scheme to translate numeric values into categories. Used in proficiency level models.",
   "scripts": {
     "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml --output=docs/index.html",
-    "test-unit": "jest"
+    "test-unit": "jest",
+    "prepare_publish": "rm -rf dist/* && tsc --project src/ts && cp src/ts/package_npm.json ./dist/package.json && cp ./README.md ./dist",
+    "npm_publish": "cd dist && npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -61,5 +62,11 @@
         "extends": "@iqb/eslint-config/javascript"
       }
     ]
+  },
+  "version": "0.0.4",
+  "description": "[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
   }
 }

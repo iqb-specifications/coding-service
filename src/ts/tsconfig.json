@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "target": "ES2022",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "lib": ["es2022", "dom"],
+    "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": false,
+    "strictFunctionTypes": true,
+    "noImplicitOverride": true,
+    "outDir": "../../dist"
+  },
+  "exclude": ["*.spec.ts"]
+}

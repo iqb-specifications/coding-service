@@ -68,4 +68,17 @@ describe('TypeGuards', () => {
     expect(isResponseRow({ id: 'a', value: 'A', status: 'VALUE_CHANGED' })).toBeFalsy();
     expect(isResponseRow({ id: 'a', value: 'A', status: 'VALUE_CHANGED', setId: 'user1' })).toBeTruthy();
   });
+
+  it('responseRow with almost nothing', () => {
+    const minimal = {
+      code: null,
+      id: "MD2",
+      score: null,
+      setId: "auto",
+      status: "DERIVE_ERROR",
+      subform: null,
+      value: null
+    };
+    expect(isResponseRow(minimal)).toBe(true);
+  });
 });

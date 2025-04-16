@@ -1,5 +1,5 @@
 import { Response as ResponseBase } from '@iqb/responses';
-import { ResponseStatusType, ResponseValueType, VariableCodingData } from '@iqb/responses/coding-interfaces';
+import { VariableCodingData } from '@iqb/responses/coding-interfaces';
 
 export interface Response extends ResponseBase { // proposal
   codingProbabilities?: CodingProbabilities;
