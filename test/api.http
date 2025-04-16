@@ -1,3 +1,5 @@
+## This test suite tests the entire apai against an implementation
+
 ### get server info
 GET {{server}}/info
 

@@ -4,8 +4,8 @@
   "license": "MIT",
   "description": "Scheme to translate numeric values into categories. Used in proficiency level models.",
   "scripts": {
-    "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml",
-    "test": "jest"
+    "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml --output=dist/docs.html",
+    "test-unit": "jest"
   },
   "repository": {
     "type": "git",
