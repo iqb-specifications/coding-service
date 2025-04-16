@@ -267,8 +267,8 @@ components:
 
     TaskInstructions:
       anyOf:
-        - $ref: '../../coding-service-implementation/api.yaml#/components/schemas/train'
-        - $ref: '../../coding-service-implementation/api.yaml#/components/schemas/code'
+        - $ref: '#/components/schemas/train'
+        - $ref: '#/components/schemas/code'
 
     TaskSeed:
       type: object
@@ -373,7 +373,7 @@ components:
           { setId: 'user2',  id: 'b', value: 'trash answer', status: 'VALUE_CHANGED' },
         ]
 
-    Response:
+    Response: # TODO use reference to spec repo here
       title: Response
       description: Data structure produced by verona players
       type: object
@@ -450,3 +450,15 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Coder"
+
+    train:
+      type: object
+      description: This should be overwritten in a concrete implementation of the API
+
+    code: # TODO instead of part of the instructions set, this could be a dedicated field in the task model
+      type: object
+      properties:
+        model:
+          type: string
+      required:
+        - model
