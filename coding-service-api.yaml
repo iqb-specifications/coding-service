@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.0.3
+  version: 0.0.4
 paths:
   /info:
     get:
@@ -61,7 +61,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Task"
     patch:
-      summary: perform action on task
+      summary: update instructions or other fields
       parameters:
         - in: path
           name: task_id
@@ -72,12 +72,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                action:
-                  $ref: "#/components/schemas/TaskAction"
-              required:
-                - action
+              $ref: "#/components/schemas/TaskUpdate"
       responses:
         200:
           description: OK
@@ -95,6 +90,32 @@ paths:
       responses:
         200:
           description: OK
+
+  /tasks/{task_id}/{action}:
+    post:
+      summary: perform action on task
+      description: perform an action on task |
+        common actions are `abort` and `commit`
+      parameters:
+        - in: path
+          name: action
+          description: action name, usually `abort` or `commit`
+          required: true
+          schema:
+            $ref: "#/components/schemas/TaskAction"
+          example: commit
+        - in: path
+          name: task_id
+          required: true
+          schema:
+            $ref: "#/components/schemas/TaskId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
 
   /tasks/{task_id}/data:
     put:
@@ -156,29 +177,31 @@ paths:
         200:
           description: OK
 
-  # TODO this should be just [PATCH] /tasks/{task_id}/ with a body param "instructions" OR sepearte endpoint like addChunk
-  /tasks/{task_id}/instructions:
-    patch:
-      summary: update instructions
-      parameters:
-        - in: path
-          name: task_id
-          required: true
-          schema:
-            $ref: "#/components/schemas/TaskId"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TaskInstructions"
+  /coders:
+    get:
+      summary: list as available coders
+      description: Returns a list of available coders. What a coder is depends to the implementation of the api. In most
+        cases it will be a pretrained model. It also could be a specific set of instructions.
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Task"
+                $ref: "#/components/schemas/CoderList"
 
+  /coders/{coder_id}:
+    delete:
+      summary: delete coder
+      parameters:
+        - in: path
+          name: coder_id
+          required: true
+          schema:
+            $ref: "#/components/schemas/CoderId"
+      responses:
+        200:
+          description: OK
 
 components:
   schemas:
@@ -199,17 +222,6 @@ components:
           type: string
           example: '0.0.1'
           pattern: ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$
-        taskTypes:
-          type: object
-          properties:
-            train:
-              $ref: "#/components/schemas/TaskTypeInfo"
-            code:
-              $ref: "#/components/schemas/TaskTypeInfo"
-
-    TaskTypeInfo:
-      type: object
-      properties:
         instructionsText:
           type: string
         instructionsSchema:
@@ -227,7 +239,12 @@ components:
             - $id
             - $schema
       required:
+        - id
+        - type
+        - version
+        - apiVersion
         - instructionsSchema
+
 
     TaskId:
       type: string
@@ -285,7 +302,9 @@ components:
               timestamp:
                 type: integer
         instructions:
-          $ref: "#/components/schemas/TaskInstructions"
+          oneOf:
+            - $ref: "#/components/schemas/TaskInstructions"
+            - $ref: "#/components/schemas/CoderId"
         data:
           type: array
           items:
@@ -297,15 +316,28 @@ components:
         - events
         - data
       example:
-        taskId: 123456
+        id: "123456"
         type: "train"
-        statusHistory:
-          - status: "created"
+        label: "example task"
+        events:
+          - status: "create"
             message: "task created"
             timestamp: 123456789
         data:
           - id: "chunk1"
             type: "input"
+
+    TaskUpdate:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+          $ref: "#/components/schemas/TaskType"
+        instructions:
+          oneOf:
+            - $ref: "#/components/schemas/TaskInstructions"
+            - $ref: "#/components/schemas/CoderId"
 
     ChunkId:
       type: string
@@ -399,3 +431,22 @@ components:
         - status
         - value
 
+    CoderId:
+      type: string
+      example: "coder#123"
+
+    Coder:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/CoderId"
+        label:
+          type: string
+      required:
+        - id
+        - label
+
+    CoderList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Coder"
