@@ -1,3 +1,5 @@
+import { Response } from './iqb.interfaces'; // TODO should come from response repo
+
 export interface ServiceInfo {
   readonly id: string;
   readonly type: string;
