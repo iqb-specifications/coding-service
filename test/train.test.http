@@ -1,0 +1,89 @@
+# Test Suite for training a new model from data
+
+### add Task
+PUT {{server}}/tasks
+Content-Type: application/json
+
+{
+  "type": "train",
+  "label": "new task",
+  "instructions": {
+    "itemPrompt": "one",
+    "itemTargets": [
+      "four"
+    ]
+  }
+}
+
+> {%
+  client.assert(response.status === 200, "Response status is not 200");
+  client.global.set("task_id", response.body.id);
+%}
+
+
+### add some data
+PUT {{server}}/tasks/{{task_id}}/data
+Content-Type: application/json
+
+< data/EL105a_t_toIQBS.train.json
+
+> {%
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(('id' in response.body), "no id in response body");
+  client.global.set("input_chunk_id", response.body.id);
+%}
+
+### look at data
+GET {{server}}/tasks/{{task_id}}/data/{{input_chunk_id}}
+Content-Type: application/json
+
+> {%
+  client.assert(response.status === 200, "Response status is not 200");
+%}
+
+### add instructions
+PATCH {{server}}/tasks/{{task_id}}
+Content-Type: application/json
+
+{
+  "instructions":
+    {
+        "itemPrompt": "one",
+        "itemTargets": [
+          "four",
+          "five"
+        ]
+    }
+}
+
+> {%
+  client.assert(response.status === 200, "Response status is not 200");
+%}
+
+### get Task
+GET {{server}}/tasks/{{task_id}}
+Content-Type: application/json
+
+> {%
+  client.assert(response.status === 200, "Response status is not 200");
+%}
+
+### commit task
+POST {{server}}/tasks/{{task_id}}/commit
+Content-Type: application/json
+
+> {%
+  import {wait} from "./wait";
+  wait(5);
+  client.assert(response.status === 200);
+%}
+
+### get Task again
+GET {{server}}/tasks/{{task_id}}
+Content-Type: application/json
+
+> {%
+  client.assert(response.status === 200);
+  client.assert(('events' in response.body) && (Array.isArray(response.body.events)) && (response.body.events.length === 4));
+  client.assert(response.body.events[3].status === 'finish');
+%}
