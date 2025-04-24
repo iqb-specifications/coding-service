@@ -6,7 +6,7 @@ import {
   TaskEvent,
   TaskEventType,
   TaskEventTypes,
-  TaskInstructions, TaskSeed, TaskType, TaskTypeInfo, TaskTypes
+  TaskInstructions, TaskType, TaskTypeInfo, TaskTypes, TaskUpdate
 } from '../interfaces/ics-api.interfaces';
 import { isResponse } from './iqb.typeguards';
 
@@ -34,16 +34,21 @@ export const isTask = (thing: unknown): thing is Task =>
   ('type' in thing) && isA<TaskType>(TaskTypes, thing.type) &&
   ('events' in thing) && isArrayOf<TaskEvent>(thing.events, isTaskEvent) &&
   ('data' in thing) && isArrayOf<DataChunk>(thing.data, isDataChunk) &&
-  (!('instructions' in thing) || ((typeof thing.instructions === 'string') || isTaskInstructions(thing.instructions)));
+  (!('label' in thing) || (typeof thing.label === 'string')) &&
+  (!('instructions' in thing) || isTaskInstructions(thing.instructions)) &&
+  (!('coder' in thing) || (typeof thing.coder === 'string'));
 
 export const isTaskTypeInfo = (thing: unknown): thing is TaskTypeInfo =>
   (typeof thing === 'object') && (thing != null) &&
   ('instructionsText' in thing) && (typeof thing.instructionsText === 'string') &&
   ('instructionsSchema' in thing) && isJsonSchema(thing.instructionsSchema);
 
-export const isTaskSeed = (thing: unknown): thing is TaskSeed =>
+export const isTaskUpdate = (thing: unknown): thing is TaskUpdate =>
   (typeof thing === 'object') && (thing != null) &&
-  ('type' in thing) && isA<TaskType>(TaskTypes, thing.type);
+  (!('type' in thing) || isA<TaskType>(TaskTypes, thing.type)) &&
+  (!('instructions' in thing) || isTaskInstructions(thing.instructions)) &&
+  (!('label' in thing) || (typeof thing.label === 'string')) &&
+  (!('coder' in thing) || (typeof thing.coder === 'string'));
 
 export const isJsonSchema = (thing: unknown): thing is JSONSchema =>
   (typeof thing === 'object') && (thing != null) &&

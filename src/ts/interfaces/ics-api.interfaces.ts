@@ -35,26 +35,25 @@ export interface DataChunk {
   readonly type: ChunkType;
 }
 
-export interface TaskSeed {
+export interface TaskInstructions {
+  [prop: string]: any
+}
+
+export interface Task {
   type: TaskType;
   label?: string;
+  id: string;
+  events: TaskEvent[];
+  data: DataChunk[];
+  instructions?: TaskInstructions;
+  coder?: string;
 }
 
 export interface TaskUpdate {
   type?: TaskType;
   label?: string;
-  instructions?: { [prop: string]: any } | string;
-}
-
-export interface TaskInstructions {
-  [prop: string]: any
-}
-
-export interface Task extends TaskSeed {
-  id: string;
-  events: TaskEvent[];
-  data: DataChunk[];
-  instructions?: TaskInstructions | string;
+  instructions?: TaskInstructions;
+  coder?: string;
 }
 
 export interface ResponseRow extends Response {

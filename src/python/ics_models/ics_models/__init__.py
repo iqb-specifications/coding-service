@@ -8,6 +8,5 @@ from .task import Task
 from .task_action import TaskAction
 from .task_event import TaskEvent
 from .task_event_type import TaskEventType
-from .task_seed import TaskSeed
 from .task_type import TaskType
 from .task_update import TaskUpdate

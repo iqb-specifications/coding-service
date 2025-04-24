@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.0.4
+  version: 0.0.6
 paths:
   /info:
     get:
@@ -22,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TaskSeed"
+              $ref: "#/components/schemas/TaskUpdate"
             example: { type: train }
       responses:
         "200":
@@ -265,21 +265,6 @@ components:
         - 'abort'
       example: 'commit'
 
-    TaskInstructions:
-      anyOf:
-        - $ref: '#/components/schemas/train'
-        - $ref: '#/components/schemas/code'
-
-    TaskSeed:
-      type: object
-      properties:
-        label:
-          type: string
-        type:
-          $ref: "#/components/schemas/TaskType"
-      required:
-        - type
-
     Task:
       type: object
       properties:
@@ -289,6 +274,10 @@ components:
           type: string
         type:
           $ref: "#/components/schemas/TaskType"
+        coder:
+          $ref: "#/components/schemas/CoderId"
+        instructions:
+          $ref: "#/components/schemas/TaskInstructions"
         events:
           type: array
           items:
@@ -301,10 +290,6 @@ components:
                 type: string
               timestamp:
                 type: integer
-        instructions:
-          oneOf:
-            - $ref: "#/components/schemas/TaskInstructions"
-            - $ref: "#/components/schemas/CoderId"
         data:
           type: array
           items:
@@ -335,9 +320,9 @@ components:
         type:
           $ref: "#/components/schemas/TaskType"
         instructions:
-          oneOf:
-            - $ref: "#/components/schemas/TaskInstructions"
-            - $ref: "#/components/schemas/CoderId"
+          $ref: "#/components/schemas/TaskInstructions"
+        coder:
+          $ref: "#/components/schemas/CoderId"
 
     ChunkId:
       type: string
@@ -451,14 +436,7 @@ components:
       items:
         $ref: "#/components/schemas/Coder"
 
-    train:
+    TaskInstructions:
       type: object
       description: This should be overwritten in a concrete implementation of the API
 
-    code: # TODO instead of part of the instructions set, this could be a dedicated field in the task model
-      type: object
-      properties:
-        model:
-          type: string
-      required:
-        - model

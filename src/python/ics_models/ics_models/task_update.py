@@ -7,4 +7,5 @@ from .task_type import TaskType
 class TaskUpdate(BaseModel):
     label: Optional[StrictStr] = None
     type: Optional[TaskType] = None
-    instructions: Optional[TaskInstructions | str] = None
+    instructions: Optional[TaskInstructions] = None
+    coderId: Optional[StrictStr] = None
