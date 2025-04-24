@@ -1,8 +1,8 @@
 from pydantic import BaseModel, StrictStr
 from typing import Optional
 
-from models.task_instructions import TaskInstructions
-from models.task_type import TaskType
+from src.models import TaskInstructions
+from .task_type import TaskType
 
 class TaskUpdate(BaseModel):
     label: Optional[StrictStr] = None

@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: ics_models
+Version: 0.0.4
+Requires-Dist: pydantic>=2
+Dynamic: requires-dist

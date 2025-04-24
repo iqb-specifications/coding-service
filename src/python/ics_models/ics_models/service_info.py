@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 
-from models.service_info_instructions_schema import ServiceInfoInstructionsSchema
+from .service_info_instructions_schema import ServiceInfoInstructionsSchema
 
 
 class ServiceInfo(BaseModel):

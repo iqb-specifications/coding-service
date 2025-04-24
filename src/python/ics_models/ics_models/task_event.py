@@ -1,6 +1,6 @@
 from pydantic import BaseModel, StrictInt, StrictStr
 from typing import Optional
-from models.task_event_type import TaskEventType
+from .task_event_type import TaskEventType
 
 class TaskEvent(BaseModel):
     status: Optional[TaskEventType] = None
