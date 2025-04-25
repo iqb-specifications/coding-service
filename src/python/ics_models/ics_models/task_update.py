@@ -8,4 +8,4 @@ class TaskUpdate(BaseModel):
     label: Optional[StrictStr] = None
     type: Optional[TaskType] = None
     instructions: Optional[TaskInstructions] = None
-    coderId: Optional[StrictStr] = None
+    coder: Optional[StrictStr] = None

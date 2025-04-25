@@ -14,5 +14,5 @@ class Task(BaseModel):
     type: TaskType
     events: List[TaskEvent]
     instructions: Optional[TaskInstructions] = None
-    coderId: Optional[StrictStr] = None
+    coder: Optional[StrictStr] = None
     data: List[DataChunk]
