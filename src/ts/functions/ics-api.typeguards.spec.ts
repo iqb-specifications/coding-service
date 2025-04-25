@@ -1,6 +1,8 @@
-import { isResponse, isResponseList } from './iqb.typeguards';
-import { contains, isCarrier } from './common.typeguards';
+import {isResponse, isResponseList, isResponseValueType} from './iqb.typeguards';
+import {contains, isA, isCarrier} from './common.typeguards';
 import { isResponseRow, isTask } from './ics-api.typeguards';
+import {ResponseStatusType} from "@iqbspecs/response/response.interface";
+import {ResponseStatusList} from "../interfaces/iqb.interfaces";
 
 describe('TypeGuards', () => {
 
@@ -56,10 +58,11 @@ describe('TypeGuards', () => {
         }
       ],
       "id": "__orphaned_data__",
-      "type": "undefined",
+      "type": "unknown",
       "instructions": {
         "variableCodings": []
-      }
+      },
+      "coder": "a"
     };
     expect(isTask(task)).toBeTruthy();
   });
@@ -71,14 +74,12 @@ describe('TypeGuards', () => {
 
   it('responseRow with almost nothing', () => {
     const minimal = {
-      code: null,
       id: "MD2",
-      score: null,
       setId: "auto",
       status: "DERIVE_ERROR",
-      subform: null,
       value: null
     };
+
     expect(isResponseRow(minimal)).toBe(true);
   });
 });

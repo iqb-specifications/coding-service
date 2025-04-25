@@ -5,9 +5,9 @@ export const debugTypeguard = <T>(input: unknown, typeguard: (thing: unknown) =>
   const firstFailingCondition = conditions
     .filter(condition => !!condition)
     .find(condition => {
-      console.log('condition:', condition);
-      const result = eval(`(function test(thing) { return ${condition}; })`)(input);
-      console.log(result);
+      console.log('condition:', condition.trim());
+      const result = eval(`(function test(thing) { return ${condition.trim()}; })`)(input);
+      console.log('result: ', result);
       return !result;
     });
   console.log('final result:', !firstFailingCondition);

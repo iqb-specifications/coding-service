@@ -1,18 +1,26 @@
-import { Response as ResponseBase } from '@iqb/responses';
-import { VariableCodingData } from '@iqb/responses/coding-interfaces';
+import {VariableCodingData} from "@iqbspecs/coding-scheme/coding-scheme.interface";
 
-export interface Response extends ResponseBase { // proposal
-  codingProbabilities?: CodingProbabilities;
-}
-
-export interface CodingProbabilities {
+export interface Codes {
   [code: string]: number
 }
 
-export const ResponseStatusList = ['UNSET', 'NOT_REACHED', 'DISPLAYED', 'VALUE_CHANGED', 'SOURCE_MISSING',
-  'DERIVE_ERROR', 'VALUE_DERIVED', 'NO_CODING', 'INVALID', 'CODING_INCOMPLETE', 'CODING_ERROR', 'CODING_COMPLETE',
-  'CODING_SEMI_COMPLETE' // proposal
-];
+export const ResponseStatusList = [
+    'UNSET',
+    'NOT_REACHED',
+    'DISPLAYED',
+    'VALUE_CHANGED',
+    'DERIVE_ERROR',
+    'CODING_COMPLETE',
+    'NO_CODING',
+    'INVALID',
+    'CODING_INCOMPLETE',
+    'CODING_ERROR',
+    'PARTLY_DISPLAYED',
+    'DERIVE_PENDING',
+    'INTENDED_INCOMPLETE',
+    'CODE_SELECTION_PENDING'
+] as const;
+
 
 export type AutoCodingInstructions = {
     variableCodings: VariableCodingData[];

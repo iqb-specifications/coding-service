@@ -1,7 +1,8 @@
-// TODO move this to @iqb-specifications/responses repo
-import { ResponseStatusType, ResponseValueType } from '@iqb/responses/coding-interfaces';
-import { CodingProbabilities, Response, ResponseStatusList } from '../interfaces/iqb.interfaces';
+// TODO move those to @iqb-specifications/responses repo
+import {CodesType, ResponseStatusType, ResponseValueType} from '@iqbspecs/response/response.interface';
+import { ResponseStatusList } from '../interfaces/iqb.interfaces';
 import { isA, isArrayOf } from './common.typeguards';
+import { Response } from '@iqbspecs/response/response.interface'
 
 export const isResponseValueType =
   (thing: unknown): thing is ResponseValueType =>
@@ -9,10 +10,11 @@ export const isResponseValueType =
     (['string', 'number', 'boolean'].includes(typeof thing)) ||
     (thing == null);
 
-export const isCodingProbabilities =
-  (thing: unknown): thing is CodingProbabilities =>
+export const isCodesType =
+  (thing: unknown): thing is CodesType =>
     (typeof thing === 'object') && (thing != null) &&
-    Object.values(thing).every(k => typeof k === 'number');
+    ('id' in thing) && (typeof thing.id === "string") &&
+    (!('parameter' in thing) || (typeof thing.parameter === "string"));
 
 export const isResponse =
   (thing: unknown): thing is Response =>
@@ -23,7 +25,7 @@ export const isResponse =
     (!('subform' in thing) || (typeof thing.subform === 'string')) &&
     (!('code' in thing) || (typeof thing.code === 'number')) &&
     (!('score' in thing) || (typeof thing.score === 'number')) &&
-    (!('codingProbabilities' in thing) || isCodingProbabilities(thing.codingProbabilities)); // proposal
+    (!('codes' in thing) || isArrayOf<CodesType>(thing.codes, isCodesType));
 
 export const isResponseList = (thing: unknown): thing is Response[] =>
   isArrayOf<Response>(thing, isResponse);
