@@ -1,5 +1,9 @@
 import {VariableCodingData} from "@iqbspecs/coding-scheme/coding-scheme.interface";
 
+export interface Codes {
+  [code: string]: number
+}
+
 export const ResponseStatusList = [
     'UNSET',
     'NOT_REACHED',
