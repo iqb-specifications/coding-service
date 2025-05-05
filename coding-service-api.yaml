@@ -2,18 +2,24 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.0.6
+  version: 0.1.1
 paths:
   /info:
     get:
       summary: return conding service identification
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ServiceInfo"
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref:  "#/components/schemas/Error"
 
   /tasks:
     put:
@@ -25,17 +31,23 @@ paths:
               $ref: "#/components/schemas/TaskUpdate"
             example: { type: train }
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
     get:
       summary: get list of all tasks
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -43,6 +55,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Task"
+        "500":
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /tasks/{task_id}:
     get:
@@ -60,6 +78,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     patch:
       summary: update instructions or other fields
       parameters:
@@ -80,6 +110,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        422:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       parameters:
         - in: path
@@ -89,7 +137,19 @@ paths:
             $ref: "#/components/schemas/TaskId"
       responses:
         200:
-          description: OK
+          description: OK, deleted
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /tasks/{task_id}/{action}:
     post:
@@ -116,6 +176,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        422:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /tasks/{task_id}/data:
     put:
@@ -132,12 +210,30 @@ paths:
             schema:
               $ref: "#/components/schemas/DataSet"
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/DataChunk"
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        422:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /tasks/{task_id}/data/{chunk_id}:
     get:
@@ -154,12 +250,24 @@ paths:
           schema:
             $ref: "#/components/schemas/ChunkId"
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/DataSet"
+        404:
+          description: Task or chunk not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       summary: delete a chunk of data from a specific task
       parameters:
@@ -175,7 +283,25 @@ paths:
             $ref: "#/components/schemas/ChunkId"
       responses:
         200:
-          description: OK
+          description: OK, deleted
+        403:
+          description: deletion not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        404:
+          description: Task or chunk not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /coders:
     get:
@@ -183,12 +309,24 @@ paths:
       description: Returns a list of available coders. What a coder is depends to the implementation of the api. In most
         cases it will be a pretrained model. It also could be a specific set of instructions.
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CoderList"
+        403:
+          description: deletion not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /coders/{coder_id}:
     delete:
@@ -201,7 +339,25 @@ paths:
             $ref: "#/components/schemas/CoderId"
       responses:
         200:
-          description: OK
+          description: OK, deleted
+        403:
+          description: deletion not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        404:
+          description: Coder not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
@@ -458,3 +614,10 @@ components:
       type: object
       description: This should be overwritten in a concrete implementation of the API
 
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
