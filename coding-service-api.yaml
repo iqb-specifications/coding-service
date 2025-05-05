@@ -373,19 +373,20 @@ components:
         status:
           type: string
           enum:
-            - UNSET
-            - NOT_REACHED
-            - DISPLAYED
-            - PARTLY_DISPLAYED
-            - VALUE_CHANGED
-            - DERIVE_PENDING
-            - DERIVE_ERROR
-            - NO_CODING
-            - INVALID
-            - CODING_INCOMPLETE
-            - CODING_ERROR
-            - CODING_COMPLETE
-            - INTENDED_INCOMPLETE
+           - UNSET
+           - NOT_REACHED
+           - DISPLAYED
+           - VALUE_CHANGED
+           - DERIVE_ERROR
+           - CODING_COMPLETE
+           - NO_CODING
+           - INVALID
+           - CODING_INCOMPLETE
+           - CODING_ERROR
+           - PARTLY_DISPLAYED
+           - DERIVE_PENDING
+           - INTENDED_INCOMPLETE
+           - CODE_SELECTION_PENDING
           description: Status as stage in the workflow of creating and coding a variable's value
         value:
           anyOf:
@@ -410,11 +411,28 @@ components:
         score:
           type: integer
           description: This value represents the result evaluation of the code after coding process.
+        codes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Code"
+          description: List of possible codes if status is CODE_SELECTION_PENDING.
       required:
         - setId
         - id
         - status
         - value
+
+    Code:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Code representing the category option.
+        parameter:
+          type: string
+          description: Specifies the code to support the code selection.
+      required:
+        - id
 
     CoderId:
       type: string
