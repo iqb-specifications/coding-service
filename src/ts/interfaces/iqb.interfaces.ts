@@ -4,7 +4,7 @@ export interface Codes {
   [code: string]: number
 }
 
-export const ResponseStatusList = [
+export const    ResponseStatusList = [
     'UNSET',
     'NOT_REACHED',
     'DISPLAYED',

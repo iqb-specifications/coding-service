@@ -13,7 +13,7 @@ export const isResponseValueType =
 export const isCodesType =
   (thing: unknown): thing is CodesType =>
     (typeof thing === 'object') && (thing != null) &&
-    ('id' in thing) && (typeof thing.id === "string") &&
+    ('id' in thing) && (typeof thing.id === "number") &&
     (!('parameter' in thing) || (typeof thing.parameter === "string"));
 
 export const isResponse =
