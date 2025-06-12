@@ -16,7 +16,7 @@ export interface TaskTypeInfo {
 
 export const TaskTypes = ['train', 'code', 'unknown'] as const;
 export const TaskActions = ['commit', 'abort'] as const;
-export const TaskEventTypes = [ 'create', 'commit', 'start', 'fail', 'finish', 'abort' ] as const;
+export const TaskEventTypes = [ 'create', 'commit', 'start', 'progress', 'warning', 'fail', 'finish', 'abort' ] as const;
 export const ChunkTypes = ['input', 'output'] as const;
 
 export type TaskType = (typeof TaskTypes[number]);

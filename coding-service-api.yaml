@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.1.1
+  version: 0.1.2
 paths:
   /info:
     get:
@@ -441,11 +441,12 @@ components:
             properties:
               status:
                 type: string
-                enum: [ 'create', 'commit', 'start', 'fail', 'finish', 'abort' ]
+                enum: [ 'create', 'commit', 'start', 'progress', 'warning', 'fail', 'finish', 'abort' ]
               message:
                 type: string
               timestamp:
                 type: integer
+                description: milliseconds since UTC epoch
         data:
           type: array
           items:
@@ -463,7 +464,7 @@ components:
         events:
           - status: "create"
             message: "task created"
-            timestamp: 123456789
+            timestamp: 1749644764948627
         data:
           - id: "chunk1"
             type: "input"

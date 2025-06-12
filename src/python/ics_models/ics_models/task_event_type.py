@@ -8,3 +8,5 @@ class TaskEventType(str, Enum):
     FAIL = 'fail'
     FINISH = 'finish'
     ABORT = 'abort'
+    PROGRESS = 'progress'
+    WARNING = 'warning'
