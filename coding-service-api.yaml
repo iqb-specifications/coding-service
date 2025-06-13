@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.1.2
+  version: 0.2.0-alpha
 paths:
   /info:
     get:
@@ -394,6 +394,8 @@ components:
           required:
             - $id
             - $schema
+        mode:
+          $ref: "#/components/schemas/ServiceMode"
       required:
         - id
         - type
@@ -401,6 +403,18 @@ components:
         - apiVersion
         - instructionsSchema
 
+    ServiceMode:
+      type: string
+      enum:
+        - 'train+code'
+        - 'direct'
+      example: 'train+code'
+      default: 'train+code'
+      description: |
+        Mode of operation of this service. 
+        * "train+code" - You have to prepare a coder in a first step (training a model for example) with
+          given instructions and training data. In a second step you select this coder and and code a list of data.
+        * "direct" - There is only one type of task, "code" and it does the coding directly from instructions. 
 
     TaskId:
       type: string

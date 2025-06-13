@@ -2,7 +2,7 @@ import { contains, isA, isArrayOf } from './common.typeguards';
 import {
   ChunkType, ChunkTypes,
   Coder,
-  DataChunk, JSONSchema, ResponseRow, ServiceInfo, Task,
+  DataChunk, JSONSchema, ResponseRow, ServiceInfo, ServiceMode, ServiceModes, Task,
   TaskEvent,
   TaskEventType,
   TaskEventTypes,
@@ -61,7 +61,9 @@ export const isServiceInfo = (thing: unknown): thing is ServiceInfo =>
   ('type' in thing) && (typeof thing.type == 'string') &&
   ('version' in thing) && (typeof thing.version == 'string') &&
   ('apiVersion' in thing) && (typeof thing.apiVersion == 'string') &&
-  ('instructionsSchema' in thing) && isJsonSchema(thing.instructionsSchema);
+  ('instructionsSchema' in thing) && isJsonSchema(thing.instructionsSchema) &&
+  (!('instructionsText' in thing) || (typeof thing.instructionsText === 'string')) &&
+  (!('mode' in thing) || isA<ServiceMode>(ServiceModes, thing.mode));
 
 export const isResponseRow= (thing: unknown): thing is ResponseRow =>
   (typeof thing == 'object') && (thing != null) &&

@@ -1,5 +1,8 @@
 import { Response } from '@iqbspecs/response/response.interface'
 
+export const ServiceModes = ['train+code', 'direct'] as const;
+export type ServiceMode = (typeof ServiceModes[number]);
+
 export interface ServiceInfo {
   readonly id: string;
   readonly type: string;
@@ -7,6 +10,7 @@ export interface ServiceInfo {
   readonly apiVersion: string;
   readonly instructionsSchema: JSONSchema;
   readonly instructionsText?: string;
+  readonly mode?: ServiceMode;
 }
 
 export interface TaskTypeInfo {

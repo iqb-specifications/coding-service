@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
+from .service_mode import ServiceMode
 
 from .service_info_instructions_schema import ServiceInfoInstructionsSchema
 
@@ -12,3 +13,4 @@ class ServiceInfo(BaseModel):
     api_version: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, alias="apiVersion")
     instructions_text: Optional[StrictStr] = Field(default=None, alias="instructionsText")
     instructions_schema: ServiceInfoInstructionsSchema = Field(alias="instructionsSchema")
+    mode: Optional[ServiceMode] = ServiceMode.TRAIN_CODE
