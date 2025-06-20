@@ -91,7 +91,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     patch:
-      summary: update instructions or other fields
+      summary: update task
       parameters:
         - in: path
           name: task_id
@@ -436,6 +436,8 @@ components:
       example: 'commit'
 
     Task:
+      description: |
+        Interface to describe an asynchronous task.
       type: object
       properties:
         id:
@@ -451,20 +453,11 @@ components:
         events:
           type: array
           items:
-            type: object
-            properties:
-              status:
-                type: string
-                enum: [ 'create', 'commit', 'start', 'progress', 'warning', 'fail', 'finish', 'abort' ]
-              message:
-                type: string
-              timestamp:
-                type: integer
-                description: milliseconds since UTC epoch
+            $ref: "#/components/schemas/TaskEvent"
         data:
           type: array
           items:
-            $ref: "#/components/schemas/DataChunk"
+            $ref: "#/components/schemas/Response"
       required:
         - id
         - label
@@ -482,6 +475,33 @@ components:
         data:
           - id: "chunk1"
             type: "input"
+
+    TaskEvent:
+      type: object
+      description: |
+        A List of TaskEvents describes the history of a task.
+        {% img
+          alt="Lifecycle of a Task image"
+          src="./taskflow.svg"
+        /%}
+        
+        * *create* - set when the task ist created
+        * *commit* - set by the user, when he is done with setting instructions and adding data
+        * *start* - set by the worker, when the task is started
+        * *progress* - may be set by the worker while performing the task. message should be in the format x/y. (eg 50/100 fpr 50% done)
+        * *warning* - may be set by the worker while performing the task when something unfortunate happens, which does not cause the task to fail.
+        * *fail* - may be set by the worker, when the task fails
+        * *finish* - be set by the worker, when the task completes
+        * *abort* - be set by the worker, when the user triggered an abortion
+      properties:
+        status:
+          type: string
+          enum: [ 'create', 'commit', 'start', 'progress', 'warning', 'fail', 'finish', 'abort' ]
+        message:
+          type: string
+        timestamp:
+          type: integer
+          description: milliseconds since UTC epoch
 
     TaskUpdate:
       type: object
