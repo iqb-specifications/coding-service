@@ -3,7 +3,7 @@
   "author": "IQB - Institut zur Qualitätsentwicklung im Bildungswesen",
   "license": "MIT",
   "scripts": {
-    "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml --output=docs/index.html",
+    "generate_docs": "npx @redocly/cli build-docs coding-service-api.yaml --output=docs/index.html  --config=redocly.yml",
     "test-unit": "jest",
     "prepare_publish": "rm -rf dist/* && tsc --project src/ts && cp src/ts/package_npm.json ./dist/package.json && cp ./README.md ./dist",
     "npm_publish": "cd dist && npm publish --access public"

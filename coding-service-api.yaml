@@ -2,11 +2,11 @@ openapi: 3.0.3
 info:
   title: Coding-Service-API
   description: Coding-Service-API
-  version: 0.2.0-alpha
+  version: 0.2.0
 paths:
   /info:
     get:
-      summary: return conding service identification
+      summary: Get service identification and config
       responses:
         200:
           description: OK
@@ -64,7 +64,7 @@ paths:
 
   /tasks/{task_id}:
     get:
-      summary: get specific task
+      summary: get task
       parameters:
         - in: path
           name: task_id
@@ -129,6 +129,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     delete:
+      summary: delete task
       parameters:
         - in: path
           name: task_id
@@ -480,10 +481,7 @@ components:
       type: object
       description: |
         A List of TaskEvents describes the history of a task.
-        {% img
-          alt="Lifecycle of a Task image"
-          src="./taskflow.svg"
-        /%}
+        ![taskflow.svg](taskflow.svg "Lifecycle of a Task")
         
         * *create* - set when the task ist created
         * *commit* - set by the user, when he is done with setting instructions and adding data
@@ -551,7 +549,9 @@ components:
 
     Response: # TODO use reference to spec repo here
       title: Response
-      description: Data structure produced by verona players
+      description: |
+        Data structure produced by verona players.
+        See [https://iqb-specifications.github.io/response/](IQB Standard).
       type: object
       properties:
         setId:
@@ -615,6 +615,8 @@ components:
 
     Code:
       type: object
+      description: |
+        See [https://iqb-specifications.github.io/response/](IQB Standard)
       properties:
         id:
           type: integer
@@ -627,9 +629,15 @@ components:
 
     CoderId:
       type: string
+      description: |
+        A string
       example: "coder#123"
 
     Coder:
+      description:  |
+        A coder is an object for coding which results form training task - for 
+        example fine-tuned LLM or neural network for a specific item or set
+        of items.
       type: object
       properties:
         id:

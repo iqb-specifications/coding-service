@@ -1,0 +1,5 @@
+theme:
+  openapi:
+    schemaExpansionLevel: 0
+    schemaDefinitionsTagName: Schemas
+    showObjectSchemaExamples: true
