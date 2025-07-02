@@ -7,7 +7,7 @@
 
 The ICS (IQB coding service) repository defines the HTTP API specifications for coding services within the IQB (Institute for Educational Quality Improvement) software ecosystem. It aims to standardize communication protocols between frontends and various coding services.
 
-In contains corresponding interfaces for typescript and and models for ptyhon.
+In contains corresponding interfaces for typescript and models for Python.
 
 ## Documentation
 
@@ -17,7 +17,7 @@ Comprehensive API documentation is available at: https://iqb-specifications.gith
 
 ## Usage of interfaces and models
 
-### Typscript
+### Typescript
 The Typescript interfaces (and tehir typeguards) can be obtained with NPM (https://www.npmjs.com/package/iqbspecs-coding-service).
 
 ### Python
