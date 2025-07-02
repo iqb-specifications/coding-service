@@ -11,7 +11,7 @@ In contains corresponding interfaces for typescript and models for Python.
 
 ## Documentation
 
-![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/taskflow.svg)
+![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/docs/taskflow.svg)
 
 Comprehensive API documentation is available at: https://iqb-specifications.github.io/coding-service/
 
