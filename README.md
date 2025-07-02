@@ -11,7 +11,7 @@ In contains corresponding interfaces for typescript and and models for ptyhon.
 
 ## Documentation
 
-[![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/taskflow.svg)]
+![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/taskflow.svg)
 
 Comprehensive API documentation is available at: https://iqb-specifications.github.io/coding-service/
 
