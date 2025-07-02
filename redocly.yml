@@ -1,3 +1,7 @@
+navbar:
+  items:
+    - page: README.md
+    - label: Overview
 theme:
   openapi:
     schemaExpansionLevel: 0

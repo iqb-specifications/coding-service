@@ -3,5 +3,3 @@ node_modules
 **/__pycache__
 dist
 **/*.egg-info
-
-docs

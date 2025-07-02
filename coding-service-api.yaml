@@ -1,7 +1,34 @@
 openapi: 3.0.3
 info:
   title: Coding-Service-API
-  description: Coding-Service-API
+  description: |
+    This document specifies the IQB-Coding Service API. It describes how services that return data in the
+    [IQB default format](https://github.com/iqb-specifications/response) can interact with the system. 
+    While the term "coding service" is not strictly defined, it typically refers 
+    to a language model or other machine learning system that can be trained to code specific items. 
+    However, it may also refer to entirely different solutions, such as a portal where human coders process batches 
+    of items.
+    
+    In all cases, the coding process is considered asynchronous. Therefore, the central element of the 
+    ISC API is the [Task](#model/task).
+    ![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/taskflow.svg)
+    
+    The tasks history is preserved in a history of [events](#model/taskevent). It has no specific status property, 
+    because the current status is always the type of the last (status relevant) event.
+    
+    ### Service Type: Training and Coding
+    Currently the ICS API supports [two types of services](#model/servicemode). The default one implements two types of 
+    tasks, *code* and *train*.
+     * a *Train*-task consumes a set of instructions and (typically) a set of *already coded data* and produces a coder.
+       In most cases this would be a task like training a specific neuronal network oder finetuning a language model.
+       After the task finishes, it gets linked to the newly produced coder. 
+     * a *Code*-task consumes reference to a coder and a set of data which is typically uncoded. It will return the data
+       with codes when possible.
+    
+    ### Service Type: direct
+    In theis kind fo Service only one type of tasks exists, *code*, which takes uncoded data and instructions and 
+    returns coded. This is useful für services, which can not be trained, like a static LLM or something, that operates
+    synchronous anyway.
   version: 0.2.0
 paths:
   /info:
@@ -439,6 +466,8 @@ components:
     Task:
       description: |
         Interface to describe an asynchronous task.
+
+        NONP
       type: object
       properties:
         id:
@@ -550,8 +579,9 @@ components:
     Response: # TODO use reference to spec repo here
       title: Response
       description: |
-        Data structure produced by verona players.
-        See [https://iqb-specifications.github.io/response/](IQB Standard).
+        This is the default data structure produced by most verona players, called
+        [IQB Standard 1.5.0](https://iqb-specifications.github.io/response/).
+        It's only extended by the property *setId*.
       type: object
       properties:
         setId:
@@ -616,7 +646,7 @@ components:
     Code:
       type: object
       description: |
-        See [https://iqb-specifications.github.io/response/](IQB Standard)
+        See [IQB Standard](https://iqb-specifications.github.io/response/)
       properties:
         id:
           type: integer
@@ -630,7 +660,7 @@ components:
     CoderId:
       type: string
       description: |
-        A string
+        A string to identify the coder.
       example: "coder#123"
 
     Coder:
