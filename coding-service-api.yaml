@@ -11,7 +11,7 @@ info:
     
     In all cases, the coding process is considered asynchronous. Therefore, the central element of the 
     ISC API is the [Task](#model/task).
-    ![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/taskflow.svg)
+    ![taskflow](https://raw.githubusercontent.com/iqb-specifications/coding-service/refs/heads/main/docs/taskflow.svg)
     
     The tasks history is preserved in a history of [events](#model/taskevent). It has no specific status property, 
     because the current status is always the type of the last (status relevant) event.
